@@ -34,6 +34,7 @@ else:
 
     username = ""
     password = ""
+    passwordverify = ""
     numbers = "1234567890"
     letters = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ"
     specialchar = "!@#$%^&*()"
