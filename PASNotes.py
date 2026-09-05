@@ -50,6 +50,7 @@ if hasAccount:
 else:
     username = ""
     password = ""
+    passwordverify = ""
     numbers = "1234567890"
     letters = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ"
     specialchar = "!@#$%^&*()"
@@ -69,11 +70,12 @@ else:
         
 # 5
 # A complete overhaul of the password-requirement verifier.
-# Implemented a function that makes the code cleaner and overall better.
-# The function takes 3 inputs (category, password, req) and 
-# returns a True, which is needed to break the loop after
-# verifying each category requirement is met, or false and prints the error
-# messages for the respective category.
+# Replaced three near identical blocks with one function called three times.
+# It takes 3 inputs (category, password, req) and checks if the password
+# has at least one character from that category.
+# If it finds one, it returns True right away and stops checking.
+# If it never finds one, it prints the error for that category and returns False.
+# The loop uses those three returned values to decide whether to break.
 
     def requirement_verifier(category, password, req):
         count = 0
@@ -95,7 +97,14 @@ else:
             letter_verification = requirement_verifier(letters, password, "letter")
             specchar_verification = requirement_verifier(specialchar, password, "special character")
             if num_verification and letter_verification and specchar_verification:
+                reqmet = True
+        if reqmet:
+            passwordverify = input("Enter your password again: ")
+            if passwordverify == password:
+                print("Account successfully created!")
                 break
+            else:
+                print("Error: Passwords must match, please try again.")
         
 # 6
 # These lines just print out the welcome message and the options available.

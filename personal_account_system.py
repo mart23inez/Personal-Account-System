@@ -69,7 +69,14 @@ else:
             letter_verification = requirement_verifier(letters, password, "letter")
             specchar_verification = requirement_verifier(specialchar, password, "special character")
             if num_verification and letter_verification and specchar_verification:
+                reqmet = True
+        if reqmet:
+            passwordverify = input("Enter your password again: ")
+            if passwordverify == password:
+                print("Account successfully created!")
                 break
+            else:
+                print("Error: Passwords must match, please try again.")
 
 print(f"Welcome {username}!")
 
