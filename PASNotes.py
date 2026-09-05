@@ -50,7 +50,6 @@ if hasAccount:
 else:
     username = ""
     password = ""
-    passwordverify = ""
     numbers = "1234567890"
     letters = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ"
     specialchar = "!@#$%^&*()"
@@ -69,67 +68,34 @@ else:
             break
         
 # 5
-# An almost complete overhaul of the password requirement system. This way it actually checks if letters, numbers,
-# and special characters are included in the password. I also removed the character limit.
-# Only once all 3 verifiations equal True will the loop break.
-# Added "num_verification, letter_verification, and specialchar_verification" to limit error messages based on their input.
-# Example: "aaaaaaaaaaaa" will only print the "number error message" and will not continue any lower. This applies to "111111111111" and "!!!!!!!!!!!!". 
-# Added "num_index, letter_index, and specchar_index" to keep the each checker closed off from eachother.
-# Changed the password character minimum to 12 instead of 8.
+# A complete overhaul of the password-requirement verifier.
+# Implemented a function that makes the code cleaner and overall better.
+# The function takes 3 inputs (category, password, req) and 
+# returns a True, which is needed to break the loop after
+# verifying each category requirement is met, or false and prints the error
+# messages for the respective category.
+
+    def requirement_verifier(category, password, req):
+        count = 0
+        while count < len(category):
+            verify = category[count]
+            if verify in password:
+                return True
+            else:
+                count += 1
+        print(f"Error: Password must include 1 {req}, please try again.")
+        return False
 
     while True:
-        password = input("Please enter a password (Must be at least 12 characters, include 1 letter, and include 1 number and special character (0-9): ")
-        securedUP = False
-        num_verification = False
-        letter_verification = False
-        specialchar_verification = False
-        verification = False
-        num_index = 0
-        let_index = 0
-        specchar_index = 0
+        password = input("Enter a Password (Must include be at least 12 characters long and include 1 letter, number, and special character): ")
         if len(password) < 12:
-            print("Error: Password must be at least 12 characters, please try again.")
+            print("Error: Password must be at least 12 characters long, please try again.")
         else:
-            verification = True
-
-        if verification:
-            while num_index < len(numbers):
-                verify = numbers[num_index]
-                if verify in password:
-                    num_verification = True
-                    break
-                else:
-                    num_index += 1
-            else:
-                print("Error: Password must include 1 number, please try again.")
-
-        if num_verification:
-            while let_index < len(letters):
-                verify = letters[let_index]
-                if verify in password:
-                    letter_verification = True
-                    break
-                else:
-                    let_index += 1
-            else:
-                print("Error: Password must include 1 letter, please try again.")
-
-        if letter_verification:
-            while specchar_index < len(specialchar):
-                verify = specialchar[specchar_index]
-                if verify in password:
-                    specialchar_verification = True
-                    break
-                else:
-                    specchar_index += 1
-            else:
-                print("Error: Password must include 1 special character, please try again.")
-
-            if num_verification and specialchar_verification and letter_verification:
-                securedUP = True
-
-        if securedUP:
-            break
+            num_verification = requirement_verifier(numbers, password, "number")
+            letter_verification = requirement_verifier(letters, password, "letter")
+            specchar_verification = requirement_verifier(specialchar, password, "special character")
+            if num_verification and letter_verification and specchar_verification:
+                break
         
 # 6
 # These lines just print out the welcome message and the options available.

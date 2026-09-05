@@ -34,74 +34,42 @@ else:
 
     username = ""
     password = ""
-    passwordverify = ""
     numbers = "1234567890"
     letters = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ"
     specialchar = "!@#$%^&*()"
 
     while True:
-            
-            username = input("Please enter a username (3 - 64 characters): ")
-            if len(username) < 3:
-                print("Error: Username must be at least 3 characters, please try again.")
-            elif len(username) > 64:
-                print("Error: Username must be no more than 64 characters, please try again.")
+        username = input("Please enter a username (3 - 64 characters): ")
+        if len(username) < 3:
+            print("Error: Username must be at least 3 characters, please try again.")
+        elif len(username) > 64:
+            print("Error: Username must be no more than 64 characters, please try again.")
+        else:
+            break
+
+
+
+    def requirement_verifier(category, password, req):
+        count = 0
+        while count < len(category):
+            verify = category[count]
+            if verify in password:
+                return True
             else:
-                break
+                count += 1
+        print(f"Error: Password must include 1 {req}, please try again.")
+        return False
 
     while True:
-        password = input("Please enter a password (Must be at least 12 characters, include 1 letter, and include 1 number and special character (0-9): ")
-        securedUP = False
-        num_verification = False
-        letter_verification = False
-        specialchar_verification = False
-        verification = False
-        num_index = 0
-        let_index = 0
-        specchar_index = 0
+        password = input("Enter a Password (Must include be at least 12 characters long and include 1 letter, number, and special character): ")
         if len(password) < 12:
-            print("Error: Password must be at least 12 characters, please try again.")
+            print("Error: Password must be at least 12 characters long, please try again.")
         else:
-            verification = True
-
-        if verification:
-            while num_index < len(numbers):
-                verify = numbers[num_index]
-                if verify in password:
-                    num_verification = True
-                    break
-                else:
-                    num_index += 1
-            else:
-                print("Error: Password must include 1 number, please try again.")
-
-        if num_verification:
-            while let_index < len(letters):
-                verify = letters[let_index]
-                if verify in password:
-                    letter_verification = True
-                    break
-                else:
-                    let_index += 1
-            else:
-                print("Error: Password must include 1 letter, please try again.")
-
-        if letter_verification:
-            while specchar_index < len(specialchar):
-                verify = specialchar[specchar_index]
-                if verify in password:
-                    specialchar_verification = True
-                    break
-                else:
-                    specchar_index += 1
-            else:
-                print("Error: Password must include 1 special character, please try again.")
-
-            if num_verification and specialchar_verification and letter_verification:
-                securedUP = True
-
-        if securedUP:
-            break
+            num_verification = requirement_verifier(numbers, password, "number")
+            letter_verification = requirement_verifier(letters, password, "letter")
+            specchar_verification = requirement_verifier(specialchar, password, "special character")
+            if num_verification and letter_verification and specchar_verification:
+                break
 
 print(f"Welcome {username}!")
 
