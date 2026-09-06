@@ -3,20 +3,30 @@ print("Welcome!")
 username = "ADMIN"
 password = "PASSWORD"
 
-while True:
-    AccVerification = input("Do you have an account with us?: (Y/N)").strip().upper()
-    hasAccount = False
-    if AccVerification == "Y":
-        hasAccount = True
-        break
-    elif AccVerification == "N":
-        hasAccount = False
-        break
-    else:
-        print("Error: Invalid input, please try again.")
+def confirm(prompt, error = "Error: Invalid input, please try again"):
+    while True:
+        answer = input(prompt).strip().upper()
+        if answer == "Y":
+            return True
+        elif answer == "N":
+            return False
+        else:
+            print(error)
 
+def requirement_verifier(category, password, req):
+    count = 0
+    while count < len(category):
+        verify = category[count]
+        if verify in password:
+            return True
+        else:
+            count += 1
+    print(f"Error: Password must include 1 {req}, please try again.")
+    return False
 
-if hasAccount:
+has_account = confirm("Do you have an account with us?: (Y/N)")
+
+if has_account:
     attempts = 0
     while attempts < 3:
         inputusername = input("Please enter your username: ")
@@ -31,10 +41,6 @@ if hasAccount:
                 print("Error: Too many attempts. Goodbye!")
                 exit()
 else:
-
-    username = ""
-    password = ""
-    passwordverify = ""
     numbers = "1234567890"
     letters = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ"
     specialchar = "!@#$%^&*()"
@@ -48,36 +54,21 @@ else:
         else:
             break
 
-
-
-    def requirement_verifier(category, password, req):
-        count = 0
-        while count < len(category):
-            verify = category[count]
-            if verify in password:
-                return True
-            else:
-                count += 1
-        print(f"Error: Password must include 1 {req}, please try again.")
-        return False
-
     while True:
-        password = input("Enter a Password (Must include be at least 12 characters long and include 1 letter, number, and special character): ")
-        if len(password) < 12:
-            print("Error: Password must be at least 12 characters long, please try again.")
+        password = input("Enter a Password (Must include be at least 15 characters long and include 1 letter, number, and special character): ")
+        if len(password) < 15:
+            print("Error: Password must be at least 15 characters long, please try again.")
         else:
             num_verification = requirement_verifier(numbers, password, "number")
             letter_verification = requirement_verifier(letters, password, "letter")
             specchar_verification = requirement_verifier(specialchar, password, "special character")
             if num_verification and letter_verification and specchar_verification:
-                reqmet = True
-        if reqmet:
-            passwordverify = input("Enter your password again: ")
-            if passwordverify == password:
-                print("Account successfully created!")
-                break
-            else:
-                print("Error: Passwords must match, please try again.")
+                passwordverify = input("Enter your password again: ")
+                if passwordverify == password:
+                    print("Account successfully created!")
+                    break
+                else:
+                    print("Error: Passwords must match, please try again.")
 
 print(f"Welcome {username}!")
 
