@@ -55,7 +55,7 @@ else:
             break
 
     while True:
-        password = input("Enter a Password (Must include be at least 15 characters long and include 1 letter, number, and special character): ")
+        password = input("Enter a Password (Must be at least 15 characters long and include 1 letter, number, and special character): ")
         if len(password) < 15:
             print("Error: Password must be at least 15 characters long, please try again.")
         else:
