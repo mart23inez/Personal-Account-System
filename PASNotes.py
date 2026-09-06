@@ -8,26 +8,42 @@ username = "ADMIN"
 password = "PASSWORD"
 
 # 2
-# This block will ask and verify if the user has an account.
+# Replaced the Y/N loop with a reusable confirmation function.
+# It takes a prompt and an optional error message, asks the question,
+# and keeps asking until the user answers Y or N.
+# It returns True for Y and False for N, so the caller just gets a
+# yes or no back and never has to deal with bad input itself.
+# Any other yes/no question in the program can now use the same function.
 # The account is hard-coded into the code (1).
 
-while True:
-    AccVerification = input("Do you have an account with us?: (Y/N)").strip().upper()
-    hasAccount = False
-    if AccVerification == "Y":
-        hasAccount = True
-        break
-    elif AccVerification == "N":
-        hasAccount = False
-        break
-    else:
-        print("Error: Invalid input, please try again.")
+def confirm(prompt, error = "Error: Invalid input, please try again"):
+    while True:
+        answer = input(prompt).strip().upper()
+        if answer == "Y":
+            return True
+        elif answer == "N":
+            return False
+        else:
+            print(error)
+
+def requirement_verifier(category, password, req):
+    count = 0
+    while count < len(category):
+        verify = category[count]
+        if verify in password:
+            return True
+        else:
+            count += 1
+    print(f"Error: Password must include 1 {req}, please try again.")
+    return False
+
+has_account = confirm("Do you have an account with us?: (Y/N)")
 
 # 3
 # This block asks the user for username and password to continue.
 # It also has a 3 attempt limit before exiting the program.
 
-if hasAccount:
+if has_account:
     attempts = 0
     while attempts < 3:
         inputusername = input("Please enter your username: ")
@@ -48,9 +64,6 @@ if hasAccount:
 # Inputs like "11111111" or "!!!!!!!!" should not have been passing through the system. Working example: "randomuser123!@#" and "randompass123!@#"
 
 else:
-    username = ""
-    password = ""
-    passwordverify = ""
     numbers = "1234567890"
     letters = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ"
     specialchar = "!@#$%^&*()"
@@ -77,34 +90,21 @@ else:
 # If it never finds one, it prints the error for that category and returns False.
 # The loop uses those three returned values to decide whether to break.
 
-    def requirement_verifier(category, password, req):
-        count = 0
-        while count < len(category):
-            verify = category[count]
-            if verify in password:
-                return True
-            else:
-                count += 1
-        print(f"Error: Password must include 1 {req}, please try again.")
-        return False
-
     while True:
-        password = input("Enter a Password (Must include be at least 12 characters long and include 1 letter, number, and special character): ")
-        if len(password) < 12:
-            print("Error: Password must be at least 12 characters long, please try again.")
+        password = input("Enter a Password (Must include be at least 15 characters long and include 1 letter, number, and special character): ")
+        if len(password) < 15:
+            print("Error: Password must be at least 15 characters long, please try again.")
         else:
             num_verification = requirement_verifier(numbers, password, "number")
             letter_verification = requirement_verifier(letters, password, "letter")
             specchar_verification = requirement_verifier(specialchar, password, "special character")
             if num_verification and letter_verification and specchar_verification:
-                reqmet = True
-        if reqmet:
-            passwordverify = input("Enter your password again: ")
-            if passwordverify == password:
-                print("Account successfully created!")
-                break
-            else:
-                print("Error: Passwords must match, please try again.")
+                passwordverify = input("Enter your password again: ")
+                if passwordverify == password:
+                    print("Account successfully created!")
+                    break
+                else:
+                    print("Error: Passwords must match, please try again.")
         
 # 6
 # These lines just print out the welcome message and the options available.
