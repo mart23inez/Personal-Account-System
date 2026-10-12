@@ -4,7 +4,6 @@ username = "ADMIN"
 password = "PASSWORD"
 
 def get_menu_option(prompt,*args):
-
     while True:
         try:
             print(prompt)
@@ -39,9 +38,9 @@ def requirement_verifier(category, password, req):
     print(f"Error: Password must include 1 {req}, please try again.")
     return False
 
-has_account = confirm("Do you have an account with us?: (Y/N)")
+menu_one_option = get_menu_option("What would you like to do?: ", "Log in", "Sign up", "Exit")
 
-if has_account:
+if menu_one_option == 1:
     attempts = 0
     while attempts < 3:
         inputusername = input("Please enter your username: ")
@@ -55,7 +54,8 @@ if has_account:
             if attempts >= 3:
                 print("Error: Too many attempts. Goodbye!")
                 exit()
-else:
+
+elif menu_one_option == 2:
     numbers = "1234567890"
     letters = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ"
     specialchar = "!@#$%^&*()"
@@ -85,28 +85,16 @@ else:
                 else:
                     print("Error: Passwords must match, please try again.")
 
-print(f"Welcome {username}!")
+elif menu_one_option == 3:
+    print("Goodbye! ")
+    exit()
 
-print("What would you like to do?")
-print("(1) To-do list")
-print("(2) Notes")
-print("(3) Exit")
+menu_two_option = get_menu_option("What would you like to do?", "To-do List", "Notes", "Exit")
 
-while True:
-    try:
-        option = int(input("What would you like to do? (1 2 3): "))
-        if option == 1 or option == 2 or option == 3:
-            break
-        else:
-            print(f"Error: Not a valid input, please try again.")
-    except ValueError:
-        print(f"Error: Not a valid input, please try again.")
-
-if option == 1:
-    print("You selected To-do list")
-elif option == 2:
-    print("You selected Notes")
-elif option == 3:
-    print("You selected Exit")
+if menu_two_option == 1:
+    print("TO-DO LIST PART")
+elif menu_two_option == 2:
+    print("NOTES PART")
+elif menu_two_option == 3:
     print("Goodbye!")
     exit()
