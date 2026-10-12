@@ -3,6 +3,21 @@ print("Welcome!")
 username = "ADMIN"
 password = "PASSWORD"
 
+def get_menu_option(prompt,*args):
+
+    while True:
+        try:
+            print(prompt)
+            for i, v in enumerate(args, 1):
+                print(i, v)
+            user_input = int(input())
+            if 1 <= user_input and user_input <= len(args):
+                return user_input
+            else:
+                print("Error: Number is not a valid option, please try again.")
+        except ValueError:
+            print("Error: Not a valid input, please try again.")
+
 def confirm(prompt, error = "Error: Invalid input, please try again"):
     while True:
         answer = input(prompt).strip().upper()
