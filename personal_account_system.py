@@ -10,7 +10,7 @@ def get_menu_option(prompt,*args):
             for i, v in enumerate(args, 1):
                 print(i, v)
             user_input = int(input())
-            if 1 <= user_input and user_input <= len(args):
+            if 1 <= user_input <= len(args):
                 return user_input
             else:
                 print("Error: Number is not a valid option, please try again.")
@@ -89,12 +89,39 @@ elif menu_one_option == 3:
     print("Goodbye! ")
     exit()
 
-menu_two_option = get_menu_option("What would you like to do?", "To-do List", "Notes", "Exit")
+while True:
+    menu_two_option = get_menu_option("What would you like to do?", "To-do List", "Notes", "Exit")
 
-if menu_two_option == 1:
-    print("TO-DO LIST PART")
-elif menu_two_option == 2:
-    print("NOTES PART")
-elif menu_two_option == 3:
-    print("Goodbye!")
-    exit()
+    if menu_two_option == 1:
+        print("You selected 'To-Do List")
+        
+        while True:
+            user_input = get_menu_option("What would you like to do?", "View", "Add", "Remove", "Return")
+
+            if user_input == 1:
+                if menu_one_option == 1:
+                    with open("text.txt") as f:
+                        print(f.read())
+                if menu_one_option == 2:
+                    with open("text.txt", "x") as f:
+                        f.write("Hmmm... Nothing to see here, maybe you should 'Add' something here...")
+                    with open("text.txt") as f:
+                        print(f.read())
+                        print("This should be working")
+                    menu_one_option = 1
+                    
+                
+            elif user_input == 2:
+                print("Option 2")
+
+            elif user_input == 3:
+                print("Option 3")
+
+            elif user_input == 4:
+                print("Returned to Main Menu")
+                break
+    elif menu_two_option == 2:
+        print("NOTES PART")
+    elif menu_two_option == 3:
+        print("Goodbye!")
+        exit()
