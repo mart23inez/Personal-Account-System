@@ -27,11 +27,11 @@ def confirm(prompt, error = "Error: Invalid input, please try again"):
         else:
             print(error)
 
-def requirement_verifier(category, password, req):
+def requirement_verifier(category, user_or_pass, req):
     count = 0
     while count < len(category):
         verify = category[count]
-        if verify in password:
+        if verify in user_or_pass:
             return True
         else:
             count += 1
@@ -61,13 +61,24 @@ elif menu_one_option == 2:
     specialchar = "!@#$%^&*()"
 
     while True:
+        usernamepass = True
         username = input("Please enter a username (3 - 64 characters): ")
         if len(username) < 3:
             print("Error: Username must be at least 3 characters, please try again.")
         elif len(username) > 64:
             print("Error: Username must be no more than 64 characters, please try again.")
-        else:
-            break
+
+        if 3 <= len(username) <= 64:
+            safelist = (letters + numbers)
+
+            for x in username:
+                if x not in safelist:
+                    usernamepass = False
+
+            if usernamepass:
+                break
+            else:
+                print("Error: Username cannot include any special characters, please try again.")
 
     while True:
         password = input("Enter a Password (Must be at least 15 characters long and include 1 letter, number, and special character): ")
@@ -85,6 +96,9 @@ elif menu_one_option == 2:
                 else:
                     print("Error: Passwords must match, please try again.")
 
+    with open(f"{username}_to-do_list.txt", "x") as f:
+        f.write("Hmmm... Nothing to see here, maybe you should 'Add' something here...")
+
 elif menu_one_option == 3:
     print("Goodbye! ")
     exit()
@@ -99,18 +113,9 @@ while True:
             user_input = get_menu_option("What would you like to do?", "View", "Add", "Remove", "Return")
 
             if user_input == 1:
-                if menu_one_option == 1:
-                    with open("text.txt") as f:
-                        print(f.read())
-                if menu_one_option == 2:
-                    with open("text.txt", "x") as f:
-                        f.write("Hmmm... Nothing to see here, maybe you should 'Add' something here...")
-                    with open("text.txt") as f:
-                        print(f.read())
-                        print("This should be working")
-                    menu_one_option = 1
+                with open("text.txt") as f:
+                    print(f.read())
                     
-                
             elif user_input == 2:
                 print("Option 2")
 
