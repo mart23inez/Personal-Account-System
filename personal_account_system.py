@@ -70,11 +70,9 @@ elif menu_one_option == 2:
 
         if 3 <= len(username) <= 64:
             safelist = (letters + numbers)
-
             for x in username:
                 if x not in safelist:
                     usernamepass = False
-
             if usernamepass:
                 break
             else:
@@ -98,7 +96,6 @@ elif menu_one_option == 2:
 
     with open(f"{username}_to-do_list.txt", "x") as f:
         f.write("Hmmm... Nothing to see here, maybe you should 'Add' something here...")
-
 elif menu_one_option == 3:
     print("Goodbye! ")
     exit()
@@ -113,11 +110,19 @@ while True:
             user_input = get_menu_option("What would you like to do?", "View", "Add", "Remove", "Return")
 
             if user_input == 1:
-                with open("text.txt") as f:
+                with open(f"{username}_to-do_list.txt") as f:
                     print(f.read())
                     
             elif user_input == 2:
-                print("Option 2")
+                while True:
+                    user_input = str(input("Enter here: "))
+                    user_confirmation = confirm(f"You entered '{user_input}' is that correct?: (Y/N)")
+                    if user_confirmation:
+                        with open(f"{username}_to-do_list.txt", "a") as f:
+                            f.write(f"\n{user_input}")
+                        with open(f"{username}_to-do_list.txt") as f:
+                            print(f.read())
+                        break
 
             elif user_input == 3:
                 print("Option 3")
